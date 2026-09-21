@@ -1,0 +1,8 @@
+{
+  "name": "Hossidev Water Monitor - Condomínio Kizomba",
+  "description": "Sistema avançado de telemetria e monitoramento de reservatórios de água com detecção serial automática Plug & Play.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:background="@drawable/bg_widget_container">
+
+    <!-- Header: Hossidev Logo & Status Indicator -->
+    <LinearLayout
+        android:id="@+id/widget_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Official Hossidev Brand Icon Thumbnail -->
+        <ImageView
+            android:id="@+id/img_brand_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_hossidev_logo_mini"
+            android:contentDescription="Hossidev Brand" />
+
+        <TextView
+            android:id="@+id/tv_app_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="HOSSIDEV ÁGUA"
+            android:textColor="#38BDF8"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black" />
+
+        <ImageView
+            android:id="@+id/btn_widget_refresh"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_refresh_small"
+            android:tint="#94A3B8"
+            android:contentDescription="Atualizar" />
+    </LinearLayout>
+
+    <!-- Tank Name & Sector -->
+    <TextView
+        android:id="@+id/tv_tank_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/widget_header"
+        android:layout_marginTop="6dp"
+        android:text="Tanque 1 - Filtrada"
+        android:textColor="#E2E8F0"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <!-- Center Tank Level Visual Gauge & Numeric Display -->
+    <LinearLayout
+        android:id="@+id/layout_gauge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tank_name"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Progress Indicator -->
+        <ProgressBar
+            android:id="@+id/pb_water_level"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="78"
+            android:progressDrawable="@drawable/progress_water_gradient" />
+
+        <!-- Percentage Label -->
+        <TextView
+            android:id="@+id/tv_level_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="78%"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed" />
+    </LinearLayout>
+
+    <!-- Volume & Pump Status Footer -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            android:id="@+id/tv_volume_liters"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="15.600 L / 20.000 L"
+            android:textColor="#94A3B8"
+            android:textSize="10sp"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Pump Badge -->
+        <TextView
+            android:id="@+id/tv_pump_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:background="@drawable/badge_pump_active"
+            android:text="BOMBA ATIVA"
+            android:textColor="#34D399"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

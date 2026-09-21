@@ -1,0 +1,86 @@
+{
+  "id": "com.hossidev.watermonitor",
+  "name": "Hossidev - Controle de Nível de Água",
+  "short_name": "Hossidev Água",
+  "description": "Sistema de telemetria inteligente, monitoramento contínuo e automação de reservatórios de água.",
+  "lang": "pt-PT",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#070d19",
+  "theme_color": "#070d19",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 144x144 192x192 256x256 384x384 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Níveis dos Tanques (T1-T6)",
+      "short_name": "Tanques",
+      "description": "Ver status em tempo real de todos os reservatórios",
+      "url": "/?view=tanks",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Diagnósticos & Hardware",
+      "short_name": "Diagnóstico",
+      "description": "Telemetria de sensores ultrassônicos e bombas",
+      "url": "/?view=diagnostics",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Relatórios & Consumo",
+      "short_name": "Relatórios",
+      "description": "Histórico de vazão e autonomia hídrica",
+      "url": "/?view=reports",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    }
+  ],
+  "widgets": [
+    {
+      "name": "Hossidev Monitor 2x2",
+      "description": "Nível consolidado do reservatório principal e status da bomba",
+      "tag": "water-level-2x2",
+      "template": "widget-2x2",
+      "ms_ac_template": "widgets/water-level-2x2.json",
+      "data": "api/telemetry/live",
+      "type": "application/json",
+      "screenshots": [
+        {
+          "src": "/icon.svg",
+          "sizes": "512x512",
+          "label": "Widget de Nível de Água Hossidev 2x2"
+        }
+      ]
+    },
+    {
+      "name": "Hossidev Panorama 4x2",
+      "description": "Visão geral completa dos 6 tanques e autonomia estimada",
+      "tag": "water-level-4x2",
+      "template": "widget-4x2",
+      "ms_ac_template": "widgets/water-level-4x2.json",
+      "data": "api/telemetry/live",
+      "type": "application/json",
+      "screenshots": [
+        {
+          "src": "/icon.svg",
+          "sizes": "512x512",
+          "label": "Widget Panorâmico Hossidev 4x2"
+        }
+      ]
+    }
+  ]
+}

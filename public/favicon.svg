@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#07152b" />
+      <stop offset="100%" stop-color="#040c19" />
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1b5ca8" />
+      <stop offset="100%" stop-color="#0f3c73" />
+    </linearGradient>
+    <linearGradient id="dropGrad" x1="30%" y1="10%" x2="70%" y2="90%">
+      <stop offset="0%" stop-color="#72bbf7" />
+      <stop offset="50%" stop-color="#4096e6" />
+      <stop offset="100%" stop-color="#1e6bba" />
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <rect x="80" y="56" width="352" height="400" rx="46" fill="#091b36" stroke="#ffffff" stroke-width="14" stroke-linejoin="round" />
+
+  <clipPath id="favInnerClip">
+    <rect x="87" y="63" width="338" height="386" rx="39" />
+  </clipPath>
+
+  <g clip-path="url(#favInnerClip)">
+    <rect x="80" y="56" width="352" height="400" fill="#081b36" />
+
+    <g transform="translate(196, 100)" stroke="#6b86ab" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 12 40 L 12 10 L 32 10 L 32 30 L 48 30 L 48 56" />
+      <path d="M 108 40 L 108 10 L 88 10 L 88 30 L 72 30 L 72 56" />
+      <path d="M 32 46 L 48 46 L 60 56 L 60 72 L 48 84 L 72 84 L 60 72" />
+      <circle cx="12" cy="40" r="4.5" fill="#a4bcdb" stroke="#081b36" stroke-width="2" />
+      <circle cx="108" cy="40" r="4.5" fill="#a4bcdb" stroke="#081b36" stroke-width="2" />
+      <circle cx="32" cy="10" r="4.5" fill="#a4bcdb" stroke="#081b36" stroke-width="2" />
+      <circle cx="88" cy="10" r="4.5" fill="#a4bcdb" stroke="#081b36" stroke-width="2" />
+      <circle cx="48" cy="84" r="4.5" fill="#a4bcdb" stroke="#081b36" stroke-width="2" />
+      <circle cx="72" cy="84" r="4.5" fill="#a4bcdb" stroke="#081b36" stroke-width="2" />
+      <circle cx="60" cy="56" r="5" fill="#38bdf8" stroke="#ffffff" stroke-width="2" />
+    </g>
+
+    <path d="M 80 230 C 130 205, 200 245, 260 225 C 330 200, 380 235, 440 220 L 440 460 L 80 460 Z" fill="url(#waterGrad)" />
+
+    <g transform="translate(256, 316)">
+      <path d="M 0 -64 C -36 -20, -48 10, -48 30 C -48 58, -26 78, 0 78 C 26 78, 48 58, 48 30 C 48 10, 36 -20, 0 -64 Z" fill="url(#dropGrad)" />
+      <path d="M -16 12 C -28 20, -32 34, -28 48 C -33 38, -32 26, -22 16 C -16 10, -8 4, -4 -6 C -8 0, -12 6, -16 12 Z" fill="#ffffff" opacity="0.65" />
+    </g>
+
+    <line x1="110" y1="280" x2="330" y2="280" stroke="#ffffff" stroke-width="7" stroke-linecap="round" />
+    <line x1="110" y1="340" x2="330" y2="340" stroke="#ffffff" stroke-width="7" stroke-linecap="round" />
+    <line x1="110" y1="400" x2="330" y2="400" stroke="#ffffff" stroke-width="7" stroke-linecap="round" />
+
+    <g transform="translate(345, 175)">
+      <path d="M 28 0 L 0 0 L 0 240 L 28 240" stroke="#36639b" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <line x1="0" y1="20" x2="16" y2="20" stroke="#36639b" stroke-width="6" stroke-linecap="round" />
+      <line x1="0" y1="60" x2="24" y2="60" stroke="#36639b" stroke-width="6" stroke-linecap="round" />
+      <line x1="0" y1="100" x2="16" y2="100" stroke="#36639b" stroke-width="6" stroke-linecap="round" />
+      <line x1="0" y1="140" x2="24" y2="140" stroke="#36639b" stroke-width="6" stroke-linecap="round" />
+      <line x1="0" y1="180" x2="16" y2="180" stroke="#36639b" stroke-width="6" stroke-linecap="round" />
+      <line x1="0" y1="220" x2="24" y2="220" stroke="#36639b" stroke-width="6" stroke-linecap="round" />
+      <polygon points="0,140 28,124 28,156" fill="#ffffff" />
+    </g>
+  </g>
+</svg>
