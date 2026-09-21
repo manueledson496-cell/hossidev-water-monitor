@@ -125,14 +125,17 @@ class SyncService {
 
       const res = await fetch('/api/health', {
         signal: controller.signal,
-        headers: { 'Cache-Control': 'no-cache' },
+        headers: { 'Cache-Control': 'no-cache', Accept: 'application/json' },
       });
       clearTimeout(timeoutId);
 
       this.pingMs = Date.now() - start;
-      this.isServerReachable = res.ok;
+      const contentType = res.headers.get('content-type') || '';
+      // A valid backend must return 200 OK and application/json (not an HTML fallback from static hosting)
+      const isValidApi = res.ok && contentType.includes('application/json');
+      this.isServerReachable = isValidApi;
       this.notify();
-      return res.ok;
+      return isValidApi;
     } catch {
       this.isServerReachable = false;
       this.notify();
@@ -192,6 +195,16 @@ class SyncService {
           return false;
         }
 
+        if (pushRes.status === 405 || pushRes.status === 404) {
+          // Static host (e.g. Vercel without serverless API routes) or endpoint not deployed
+          this.isServerReachable = false;
+          this.state = 'servidorIndisponivel';
+          this.lastError = 'Servidor de sincronização remoto não configurado nesta hospedagem. Operando 100% em modo local.';
+          this.isSyncing = false;
+          this.notify();
+          return false;
+        }
+
         if (pushRes.ok) {
           const pushData = await pushRes.json();
           if (Array.isArray(pushData.processedIds)) {
@@ -218,6 +231,14 @@ class SyncService {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (pullRes.status === 405 || pullRes.status === 404) {
+        this.isServerReachable = false;
+        this.state = 'servidorIndisponivel';
+        this.isSyncing = false;
+        this.notify();
+        return false;
+      }
 
       if (pullRes.ok) {
         const pullData = await pullRes.json();
