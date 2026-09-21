@@ -149,7 +149,35 @@ export const dbService = {
     const clean = identifier.trim().toLowerCase();
     
     // Find user by username or email
-    const users = await localDb.users.toArray();
+    let users = await localDb.users.toArray();
+
+    // Auto-seed default administrative credentials if IndexedDB is completely fresh / uninitialized
+    // This allows first-time offline access or static hosts without Node.js backend (e.g. Vercel static deployments)
+    if (users.length === 0) {
+      const defaultSalt = generateSalt();
+      const defaultHash = await hashPasswordWithSalt('admin123@Hossidev', defaultSalt);
+      const nowIso = new Date().toISOString();
+      const seededAdmin: LocalUserRecord = {
+        id: 'usr_admin_default_master',
+        username: 'admin',
+        name: 'Administrador Hossidev',
+        email: 'admin@hossidev.com',
+        role: 'admin',
+        permittedTankIds: [1, 2, 3, 4, 5, 6],
+        passwordSalt: defaultSalt,
+        passwordHash: defaultHash,
+        token: 'local_offline_master_token_' + Date.now(),
+        active: true,
+        firstOnlineLogin: nowIso,
+        lastOnlineLogin: nowIso,
+        lastOfflineLogin: nowIso,
+        lastAccess: nowIso,
+        updatedAt: nowIso,
+      };
+      await localDb.users.put(seededAdmin);
+      users = [seededAdmin];
+    }
+
     const user = users.find(
       (u) => u.username.toLowerCase() === clean || u.email.toLowerCase() === clean
     );

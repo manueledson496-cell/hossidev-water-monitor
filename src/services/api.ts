@@ -20,6 +20,15 @@ export function clearStoredAuth(): void {
   authStorage.clearSession();
 }
 
+export class ApiError extends Error {
+  status?: number;
+  constructor(message: string, status?: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+  }
+}
+
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = authStorage.getToken();
   const headers: Record<string, string> = {
@@ -43,7 +52,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(data.error || `Erro de requisição (${res.status})`);
+    throw new ApiError(data.error || `Erro de requisição (${res.status})`, res.status);
   }
 
   return data as T;
@@ -81,19 +90,53 @@ export const api = {
 
           return { ...data, isOffline: false };
         } catch (onlineErr: any) {
-          // If server error is credentials error (401 / 400), don't fallback to offline
+          // If server error is a real credentials error from a responding backend (401 / 400 with specific message)
           const msg = onlineErr.message || '';
-          const isCredentialError =
-            msg.includes('Senha incorreta') ||
-            msg.includes('não encontrado') ||
-            msg.includes('Credenciais inválidas');
+          const status = onlineErr.status;
+          const isExplicitCredentialError =
+            (status === 401 || status === 400) &&
+            (msg.includes('Senha incorreta') ||
+              msg.includes('não encontrado') ||
+              msg.includes('Credenciais inválidas') ||
+              msg.includes('Informe usuário'));
 
-          if (isCredentialError) {
-            throw onlineErr;
+          if (isExplicitCredentialError) {
+            // Check if local database has this user or master admin credentials before failing completely
+            try {
+              const localUser = await dbService.verifyOfflineCredentials(identifier, password);
+              const token = localUser.token || 'offline_local_token_' + Date.now();
+              authStorage.saveSession(
+                {
+                  id: localUser.id,
+                  username: localUser.username,
+                  name: localUser.name,
+                  email: localUser.email,
+                  role: localUser.role,
+                  permittedTankIds: localUser.permittedTankIds,
+                },
+                token,
+                rememberMe
+              );
+              return {
+                token,
+                user: {
+                  id: localUser.id,
+                  username: localUser.username,
+                  name: localUser.name,
+                  email: localUser.email,
+                  role: localUser.role,
+                  permittedTankIds: localUser.permittedTankIds,
+                },
+                isOffline: true,
+              };
+            } catch {
+              // If local check also fails or differs, throw the real credential error
+              throw onlineErr;
+            }
           }
 
-          // If network / connectivity failure, fallback to offline login
-          console.warn('[Auth] Servidor inacessível, tentando autenticação offline:', onlineErr);
+          // If network / connectivity failure, 404 (e.g. Vercel static deployment without Node backend), or offline fallback
+          console.warn('[Auth] Servidor backend inacessível ou estático, utilizando autenticação local:', onlineErr);
           const localUser = await dbService.verifyOfflineCredentials(identifier, password);
           const token = localUser.token || 'offline_local_token_' + Date.now();
           authStorage.saveSession(
